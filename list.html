@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@3"></script>
+<style>
+    html, body {
+        height: 100%;
+    }
+
+    body {
+        display:grid;
+        place-items: center;
+    }
+
+
+</style>
+</head>
+<body>
+    <div id="app">
+       <section v-show="incompleteProjects">
+        <h2>To Do:</h2>
+        <ul>
+            <li v-for="project in projects.filter(p=> !p.completed)" 
+                :key="project.id">
+                <label for="{{project.id}}">
+                    {{project.value}}
+                </label>
+                <input type="checkbox" name="{{project.id}}" v-model="project.completed">
+            </li>
+        </ul>
+       </section>
+       <section v-show="completedProjects">
+        <h2>Completed:</h2>
+        <ul>
+            <li v-for="project in projects.filter(p => p.completed)"
+                :key="project.id">
+                <label for="{{project.id}}">
+                    {{project.value}}
+                </label>
+                <input type="checkbox" name="{{project.id}}" v-model="project.completed">
+            </li>
+        </ul>
+       </section>
+
+    </div>
+    <script>
+        Vue.createApp({
+            data() {
+                return{
+
+                
+                projects : [
+                    {
+                        id: 1,
+                        completed: false,
+                        value: 'Do Homework'
+                    },
+                    {
+                        id: 2,
+                        completed: false,
+                        value: 'Do Chores'
+                    },
+                    {
+                        id: 3,
+                        completed: false,
+                        value: 'Make Dinner'
+                    }
+                ]
+            }
+        },
+            computed: {
+                completedProjects() {
+                    return this.projects.filter(p => p.completed).length
+                },
+
+                incompleteProjects() {
+                    return this.projects.filter(p=> !p.completed).length
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
